@@ -1,25 +1,509 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head><meta property="og:image" content="https://toma-id.github.io/preview.png">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Toma ID</title>
-    <meta name="description" content="Toma ID" />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Toma ID" />
-    <meta property="og:description" content="Toma ID" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Toma ID" />
-    <meta name="twitter:description" content="Toma ID" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" crossorigin href="./index-D4pofkvG.css">
-<script type="module" crossorigin src="./index-BxtFDQpk.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta property="og:image" content="https://toma-id.github.io/generator/preview.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOMA ID — Niche Genre Generator</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --lime:   #b4ff00;
+      --bg:     #ffffff;
+      --ink:    #000000;
+      --muted:  rgba(0,0,0,0.45);
+      --border: 1px solid #000000;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Space Mono', 'Courier New', monospace;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ───────────────────────────────────────────── */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 48px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.18)
+    }
+
+    .logo {
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: var(--lime);
+  padding: 4px 12px;
+  display: inline-block;
+  transition: opacity 0.15s ease;
+    }
+
+    .site-tagline {
+      font-size: 12px;
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .hero {
+      padding: 72px 48px 56px;
+    }
+
+    .genre-display {
+      font-size: clamp(2.6rem, 6.5vw, 5rem);
+      font-weight: 700;
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1.08;
+      min-height: 1.2em;
+      opacity: 1;
+      transition: opacity 0.18s ease;
+    }
+
+    .genre-display.fade {
+      opacity: 0;
+    }
+
+    .hero-dashes {
+      margin-top: 40px;
+      font-size: 14px;
+      letter-spacing: 0.6em;
+      color: var(--ink);
+      opacity: 0.35;
+    }
+
+    /* ── SECTION BLOCK ────────────────────────────────────── */
+    .section {
+      padding: 0 48px 52px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.55s ease, opacity 0.4s ease, padding 0.4s ease;
+    }
+
+    .section.open {
+      max-height: 800px;
+      opacity: 1;
+      padding: 48px 48px 52px;
+    }
+
+    /* First section is always open from the start */
+    .section.always-open {
+      max-height: 800px;
+      opacity: 1;
+      padding: 48px 48px 52px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 26px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .tag {
+      padding: 11px 18px;
+      border: var(--border);
+      background: transparent;
+      color: var(--ink);
+      font-family: 'Space Mono', 'Courier New', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.12s ease, color 0.12s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tag:hover:not(.selected) {
+      background: rgba(180, 255, 0, 0.25);
+    }
+
+    .tag.selected {
+      background: var(--lime);
+      color: var(--ink);
+    }
+
+    /* ── RESULT ───────────────────────────────────────────── */
+    .result {
+      padding: 0 48px 100px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.6s ease, opacity 0.5s ease, padding 0.4s ease;
+      text-align: center;
+    }
+
+    .result.open {
+      max-height: 600px;
+      opacity: 1;
+      padding: 72px 48px 100px;
+    }
+
+    .result-label {
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .result-genre {
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1.15;
+      max-width: 860px;
+      margin: 0 auto 56px;
+    }
+
+    .order-btn {
+      display: inline-block;
+      padding: 18px 44px;
+      background: var(--lime);
+      color: var(--ink);
+      font-family: 'Space Mono', 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: filter 0.15s ease, transform 0.15s ease;
+    }
+
+    .order-btn:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1px);
+    }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media (max-width: 680px) {
+      header, .hero, .section.always-open, .section.open, .result.open {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .genre-display { font-size: clamp(2rem, 9vw, 3rem); }
+      .tag { font-size: 10px; padding: 9px 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">TOMA ID</div>
+    <div class="site-tagline">Film Writer</div>
+  </header>
+
+  <!-- HERO: cycling genres -->
+  <section class="hero">
+    <div class="genre-display" id="genreDisplay">EROTIC MUMBLECORE</div>
+    <div class="hero-dashes">— &nbsp;&nbsp; — &nbsp;&nbsp; —</div>
+  </section>
+
+  <!-- 01 — SELECT TERRITORY -->
+  <section class="section always-open" id="sec-territory">
+    <div class="section-label">01 — SELECT TERRITORY</div>
+    <div class="tags" id="tags-territory">
+      <button class="tag" data-group="territory" data-value="GEOGRAPHIC">GEOGRAPHIC</button>
+      <button class="tag" data-group="territory" data-value="PSYCHOLOGICAL">PSYCHOLOGICAL</button>
+      <button class="tag" data-group="territory" data-value="SOMATIC">SOMATIC</button>
+      <button class="tag" data-group="territory" data-value="TEMPORAL">TEMPORAL</button>
+      <button class="tag" data-group="territory" data-value="SOCIAL CLASS">SOCIAL CLASS</button>
+      <button class="tag" data-group="territory" data-value="SUBCULTURAL">SUBCULTURAL</button>
+      <button class="tag" data-group="territory" data-value="ECOLOGICAL">ECOLOGICAL</button>
+      <button class="tag" data-group="territory" data-value="SPIRITUAL">SPIRITUAL</button>
+      <button class="tag" data-group="territory" data-value="EROTIC">EROTIC</button>
+      <button class="tag" data-group="territory" data-value="LINGUISTIC">LINGUISTIC</button>
+      <button class="tag" data-group="territory" data-value="POLITICAL">POLITICAL</button>
+      <button class="tag" data-group="territory" data-value="MYTHOLOGICAL">MYTHOLOGICAL</button>
+      <button class="tag" data-group="territory" data-value="DOMESTIC">DOMESTIC</button>
+      <button class="tag" data-group="territory" data-value="COLONIAL">COLONIAL</button>
+      <button class="tag" data-group="territory" data-value="GENERATIONAL">GENERATIONAL</button>
+    </div>
+  </section>
+
+  <!-- 02 — SELECT FORM -->
+  <section class="section" id="sec-form">
+    <div class="section-label">02 — SELECT FORM</div>
+    <div class="tags" id="tags-form">
+      <button class="tag" data-group="form" data-value="SLOW BURN">SLOW BURN</button>
+      <button class="tag" data-group="form" data-value="FOLK HORROR">FOLK HORROR</button>
+      <button class="tag" data-group="form" data-value="BODY HORROR">BODY HORROR</button>
+      <button class="tag" data-group="form" data-value="SURREALIST">SURREALIST</button>
+      <button class="tag" data-group="form" data-value="ABSURDIST">ABSURDIST</button>
+      <button class="tag" data-group="form" data-value="DOCUMENTARY REALISM">DOCUMENTARY REALISM</button>
+      <button class="tag" data-group="form" data-value="MAGICAL REALISM">MAGICAL REALISM</button>
+      <button class="tag" data-group="form" data-value="KITCHEN SINK">KITCHEN SINK</button>
+      <button class="tag" data-group="form" data-value="MUMBLECORE">MUMBLECORE</button>
+      <button class="tag" data-group="form" data-value="NOIR">NOIR</button>
+      <button class="tag" data-group="form" data-value="ROAD MOVIE">ROAD MOVIE</button>
+      <button class="tag" data-group="form" data-value="REVENGE THRILLER">REVENGE THRILLER</button>
+      <button class="tag" data-group="form" data-value="EROTIC DRAMA">EROTIC DRAMA</button>
+      <button class="tag" data-group="form" data-value="COSMIC HORROR">COSMIC HORROR</button>
+      <button class="tag" data-group="form" data-value="PASTORAL">PASTORAL</button>
+      <button class="tag" data-group="form" data-value="GROTESQUE">GROTESQUE</button>
+      <button class="tag" data-group="form" data-value="ELEGY">ELEGY</button>
+      <button class="tag" data-group="form" data-value="FARCE">FARCE</button>
+      <button class="tag" data-group="form" data-value="CHAMBER PIECE">CHAMBER PIECE</button>
+      <button class="tag" data-group="form" data-value="SUPERNATURAL REALISM">SUPERNATURAL REALISM</button>
+    </div>
+  </section>
+
+  <!-- 03 — SELECT WORLD -->
+  <section class="section" id="sec-world">
+    <div class="section-label">03 — SELECT WORLD</div>
+    <div class="tags" id="tags-world">
+      <button class="tag" data-group="world" data-value="FISHING VILLAGE">FISHING VILLAGE</button>
+      <button class="tag" data-group="world" data-value="NOMADIC COMMUNITY">NOMADIC COMMUNITY</button>
+      <button class="tag" data-group="world" data-value="SOVIET-ERA APARTMENT">SOVIET-ERA APARTMENT</button>
+      <button class="tag" data-group="world" data-value="MIGRANT WORKER CAMP">MIGRANT WORKER CAMP</button>
+      <button class="tag" data-group="world" data-value="ALPINE RESORT">ALPINE RESORT</button>
+      <button class="tag" data-group="world" data-value="TECH STARTUP">TECH STARTUP</button>
+      <button class="tag" data-group="world" data-value="RURAL COMMUNE">RURAL COMMUNE</button>
+      <button class="tag" data-group="world" data-value="FAMILY FUNERAL">FAMILY FUNERAL</button>
+      <button class="tag" data-group="world" data-value="UNDERGROUND CLUB">UNDERGROUND CLUB</button>
+      <button class="tag" data-group="world" data-value="BORDER CHECKPOINT">BORDER CHECKPOINT</button>
+      <button class="tag" data-group="world" data-value="SMALL-TOWN DINER">SMALL-TOWN DINER</button>
+      <button class="tag" data-group="world" data-value="FOREST MONASTERY">FOREST MONASTERY</button>
+      <button class="tag" data-group="world" data-value="MOUNTAIN VILLAGE">MOUNTAIN VILLAGE</button>
+      <button class="tag" data-group="world" data-value="SEASIDE TOURIST TRAP">SEASIDE TOURIST TRAP</button>
+      <button class="tag" data-group="world" data-value="SUBURBAN GARAGE">SUBURBAN GARAGE</button>
+      <button class="tag" data-group="world" data-value="ABANDONED FACTORY">ABANDONED FACTORY</button>
+      <button class="tag" data-group="world" data-value="FAMILY FARM">FAMILY FARM</button>
+      <button class="tag" data-group="world" data-value="COASTAL FISHING PORT">COASTAL FISHING PORT</button>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <div class="result" id="result">
+    <div class="result-label">YOUR SCREENPLAY GENRE</div>
+    <div class="result-genre" id="resultGenre"></div>
+    <a class="order-btn" id="orderBtn" href="mailto:nomessagereceived@gmail.com?subject=Screenplay%20Order" target="_blank">
+      ORDER SCREENPLAY →
+    </a>
+  </div>
+
+  <script>
+    // ── HERO GENRE CYCLING (Frank LeBon rhythm) ──────────────────
+
+    const heroGenres = [
+      "EROTIC MUMBLECORE",
+      "EAST EUROPEAN FOLK HORROR",
+      "PERUVIAN JUNGLE SURREALISM",
+      "PSYCHEDELIC ROAD MOVIE",
+      "SIBERIAN KITCHEN SINK",
+      "POST-SOVIET BODY HORROR",
+      "TROPICAL COSMIC HORROR",
+      "BALKAN FOLK SURREALISM",
+      "SUBCULTURAL ELEGY",
+      "SOUTH ASIAN DOMESTIC NOIR",
+      "ECOLOGICAL CHAMBER PIECE",
+      "COLONIAL REVENGE GROTESQUE",
+      "LINGUISTIC ABSURDIST FARCE",
+      "SPIRITUAL SLOW BURN",
+      "GENERATIONAL PASTORAL DRAMA",
+      "NOMADIC SUPERNATURAL REALISM",
+      "MYTHOLOGICAL BODY HORROR",
+      "EROTIC DOCUMENTARY REALISM",
+      "POLITICAL KITCHEN SINK",
+      "TEMPORAL MUMBLECORE NOIR",
+      "ANDEAN MAGICAL REALISM",
+      "INDUSTRIAL FOLK HORROR",
+      "QUEER SOMATIC THRILLER",
+      "ARCTIC EXISTENTIALIST DRAMA",
+      "TRANS-SIBERIAN ROAD ELEGY",
+      "CARIBBEAN COLONIAL GROTESQUE",
+      "MOUNTAIN MONASTERY HORROR",
+      "WORKING-CLASS EROTIC FARCE",
+      "UNDERGROUND CLUB SURREALISM",
+      "BORDER ZONE SLOW BURN",
+      "RURAL INTERNET AGE NOIR",
+      "DOMESTIC SPIRITUAL GROTESQUE",
+      "MIGRANT BODY HORROR",
+      "SUBCULTURAL REVENGE PASTORAL",
+      "GENERATIONAL COSMIC FOLK HORROR",
+      "SOVIET BUREAUCRATIC ABSURDISM",
+      "TROPICAL PSYCHOLOGICAL THRILLER",
+      "INDIGENOUS SUPERNATURAL REALISM",
+      "FISHING VILLAGE MYTHOLOGY",
+      "ALPINE EROTIC CHAMBER PIECE",
+      "POSTCOLONIAL KITCHEN SINK",
+      "DIGITAL NOMAD DOCUMENTARY",
+      "SMALL-TOWN EXISTENTIAL FARCE",
+      "QUEER FOLK HORROR ELEGY",
+      "SUBURBAN SOMATIC DREAD",
+      "ABANDONED INDUSTRIAL MYTHOLOGY",
+      "FUNERAL SLOW BURN DRAMA",
+      "LINGUISTIC IDENTITY ROAD MOVIE",
+      "FOREST MONASTERY BODY HORROR",
+      "TECH STARTUP PSYCHOLOGICAL NOIR",
+    ];
+
+    // Shuffle genres each page load
+    function shuffleArray(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    // Generate Frank LeBon-style irregular timing: mix of quick flashes and long pauses
+    function generateRhythm(count) {
+      const timings = [];
+      for (let i = 0; i < count; i++) {
+        const r = Math.random();
+        if (r < 0.18)      timings.push(220 + Math.random() * 180);   // fast flash
+        else if (r < 0.45) timings.push(500 + Math.random() * 400);   // medium
+        else if (r < 0.72) timings.push(1100 + Math.random() * 900);  // slow hold
+        else               timings.push(2200 + Math.random() * 2000); // long pause
+      }
+      return timings;
+    }
+
+    const shuffledGenres = shuffleArray(heroGenres);
+    const timings = generateRhythm(shuffledGenres.length);
+
+    const display = document.getElementById('genreDisplay');
+    let heroIndex = 0;
+
+    function showNextGenre() {
+      display.classList.add('fade');
+      setTimeout(() => {
+        heroIndex = (heroIndex + 1) % shuffledGenres.length;
+        display.textContent = shuffledGenres[heroIndex];
+        display.classList.remove('fade');
+        const nextDelay = timings[heroIndex % timings.length];
+        setTimeout(showNextGenre, nextDelay);
+      }, 190);
+    }
+
+    // Start cycling with first timing after a brief hold on initial genre
+    display.textContent = shuffledGenres[0];
+    setTimeout(showNextGenre, timings[0]);
+
+
+    // ── SELECTOR LOGIC ───────────────────────────────────────────
+
+    const state = { territory: null, form: null, world: null };
+
+    // Map word to prefix for result sentence
+    function buildResultSentence(t, f, w) {
+      // Article logic for worlds
+      const vowels = /^[AEIOU]/;
+      const article = vowels.test(w) ? 'AN' : 'A';
+      return `${t} ${f} SET IN ${article} ${w}`;
+    }
+
+    function updateResult() {
+      const { territory, form, world } = state;
+      const result = document.getElementById('result');
+      const resultGenre = document.getElementById('resultGenre');
+
+      if (territory && form && world) {
+        resultGenre.textContent = buildResultSentence(territory, form, world);
+        result.classList.add('open');
+        // Scroll result into view smoothly
+        setTimeout(() => {
+          result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 350);
+      } else {
+        result.classList.remove('open');
+      }
+    }
+
+    function revealSection(id) {
+      const el = document.getElementById(id);
+      if (!el.classList.contains('open') && !el.classList.contains('always-open')) {
+        el.classList.add('open');
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 60);
+      }
+    }
+
+    document.querySelectorAll('.tag').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const group = btn.dataset.group;
+        const value = btn.dataset.value;
+
+        // Deselect all in same group
+        document.querySelectorAll(`.tag[data-group="${group}"]`)
+          .forEach(t => t.classList.remove('selected'));
+
+        // Toggle: if clicking same value, deselect
+        if (state[group] === value) {
+          state[group] = null;
+        } else {
+          btn.classList.add('selected');
+          state[group] = value;
+
+          // Reveal next section
+          if (group === 'territory') revealSection('sec-form');
+          if (group === 'form')      revealSection('sec-world');
+        }
+
+        // Reset downstream when territory or form changes
+        if (group === 'territory') {
+          state.form = null;
+          state.world = null;
+          document.querySelectorAll('.tag[data-group="form"]').forEach(t => t.classList.remove('selected'));
+          document.querySelectorAll('.tag[data-group="world"]').forEach(t => t.classList.remove('selected'));
+        }
+        if (group === 'form') {
+          state.world = null;
+          document.querySelectorAll('.tag[data-group="world"]').forEach(t => t.classList.remove('selected'));
+        }
+
+        updateResult();
+      });
+    });
+
+    // Update order button email subject dynamically
+    document.getElementById('orderBtn').addEventListener('click', function(e) {
+      const { territory, form, world } = state;
+      if (territory && form && world) {
+        const genre = buildResultSentence(territory, form, world);
+        this.href = `mailto:nomessagereceived@gmail.com?subject=Screenplay%20Order%3A%20${encodeURIComponent(genre)}&body=Hello%2C%0A%0AI%20would%20like%20to%20order%20a%20screenplay%20for%20the%20genre%3A%0A${encodeURIComponent(genre)}%0A%0A`;
+      }
+    });
+  </script>
+</body>
 </html>
